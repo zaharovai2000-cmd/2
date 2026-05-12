@@ -1,0 +1,14 @@
+Frontend (React)                    Backend (FastAPI)              Stripe
+─────────────────────────────────────────────────────────────────────────
+1. Пользователь заполняет форму
+2. Выбирает оплату картой
+3. POST /orders → создаётся заказ    Order(payment_status=pending)
+4. POST /payments/create-intent  →   PaymentIntent создаётся     → Stripe API
+   ← {client_secret, intent_id}  ←                              ← client_secret
+5. Stripe Elements рендерится
+6. Пользователь вводит карту
+   (данные уходят ТОЛЬКО в Stripe)                              → Tokenization
+7. stripe.confirmPayment()                                       → Payment
+8.                                   ← POST /payments/webhook ←  webhook event
+9.                                   Order(payment_status=paid)
+10. Redirect на success-страницу
